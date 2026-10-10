@@ -4,81 +4,45 @@
 
 @layer base {
   body {
-    background-color: #0A0E17;
-    color: #E2E8F0;
     font-family: 'Outfit', 'Inter', system-ui, sans-serif;
   }
 }
 
 :focus-visible {
-  outline: 2px solid #00F0FF;
+  outline: 2px solid #0284c7;
   outline-offset: 2px;
 }
 
 @layer components {
-  /* 3D Glassmorphic Card */
+  /* Cards */
   .card-3d {
-    background: linear-gradient(135deg, rgba(17, 24, 39, 0.85) 0%, rgba(15, 23, 42, 0.7) 100%);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-radius: 0.75rem;
+    @apply rounded-xl border transition-colors duration-200;
+    @apply bg-white border-slate-200 text-slate-900 shadow-sm;
+    @apply dark:bg-slate-900/90 dark:border-slate-800 dark:text-slate-100 dark:shadow-none;
   }
 
-  /* 3D Button Components */
+  /* Buttons */
   .btn-3d-primary {
-    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-    background: linear-gradient(135deg, #00F0FF 0%, #0072FF 50%, #0047FF 100%);
-    box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(0, 240, 255, 0.5);
-  }
-  .btn-3d-primary:hover {
-    box-shadow: 0 6px 25px rgba(0, 240, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transform: translateY(-1px);
-  }
-  .btn-3d-primary:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(0, 240, 255, 0.3);
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-sky-600 hover:bg-sky-500 shadow-sm;
   }
 
   .btn-3d-secondary {
-    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-  .btn-3d-secondary:hover {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 1) 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-    color: #FFFFFF;
-  }
-  .btn-3d-secondary:active {
-    transform: translateY(1px);
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200;
+    @apply dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700;
   }
 
   .btn-3d-danger {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-red-200 transition-all duration-200;
-    background: linear-gradient(135deg, rgba(153, 27, 27, 0.8) 0%, rgba(127, 29, 29, 0.9) 100%);
-    border: 1px solid rgba(248, 113, 113, 0.3);
-    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-  .btn-3d-danger:hover {
-    background: linear-gradient(135deg, rgba(185, 28, 28, 0.9) 0%, rgba(153, 27, 27, 1) 100%);
-    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200;
+    @apply bg-red-600 text-white hover:bg-red-500;
+    @apply dark:bg-red-950/80 dark:text-red-200 dark:border dark:border-red-800 dark:hover:bg-red-900;
   }
 
-  /* Form Elements */
+  /* Form Inputs */
   .input-3d {
-    @apply w-full rounded-lg px-4 py-2.5 text-sm text-slate-100 placeholder-slate-400 transition-all duration-200;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  .input-3d:focus {
-    border-color: #00F0FF;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.5);
-    outline: none;
+    @apply w-full rounded-lg px-4 py-2.5 text-sm transition-all duration-200;
+    @apply bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-sky-600 focus:outline-none focus:ring-1 focus:ring-sky-600;
+    @apply dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-500 dark:focus:ring-sky-500;
   }
 
   .card {
@@ -100,13 +64,13 @@
     @apply input-3d;
   }
   .label {
-    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400;
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400;
   }
   .th {
-    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-white/10;
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800;
   }
   .td {
-    @apply px-4 py-3.5 text-sm border-b border-white/5;
+    @apply px-4 py-3.5 text-sm border-b border-slate-100 dark:border-slate-800/60;
   }
 }
 
