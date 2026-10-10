@@ -67,3 +67,28 @@ def set_role(user_id: str, body: RoleIn, user: User = Depends(admin_only), db: S
     log_event(db, user, "ROLE_CHANGED", "user", target.id, detail={"from": old, "to": body.role})
     db.commit()
     return {"id": target.id, "role": target.role}
+
+
+@router.get("/export/audit-events")
+def export_audit(user: User = Depends(admin_only), db: Session = Depends(get_db)):
+    import csv, io
+    from fastapi.responses import Response
+    out = io.StringIO()
+    w = csv.writer(out)
+    w.writerow(["id", "action", "actor_role", "actor_id", "entity_type", "entity_id", "created_at"])
+    for e in db.scalars(select(AuditEvent).order_by(AuditEvent.id.desc())).all():
+        w.writerow([e.id, e.action, e.actor_role, e.actor_id, e.entity_type, e.entity_id, e.created_at])
+    return Response(content=out.getvalue(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=audit_events.csv"})
+
+
+@router.get("/export/disputes")
+def export_disputes(user: User = Depends(admin_only), db: Session = Depends(get_db)):
+    import csv, io
+    from fastapi.responses import Response
+    out = io.StringIO()
+    w = csv.writer(out)
+    w.writerow(["case_id", "owner_id", "effective_category", "status", "created_at", "resolved_at"])
+    for d in db.scalars(select(Dispute).order_by(Dispute.id.desc())).all():
+        w.writerow([d.case_id, d.owner_id, d.effective_category, d.status, d.created_at, d.resolved_at])
+    return Response(content=out.getvalue(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=disputes.csv"})
+
