@@ -1,0 +1,185 @@
+================================================================================
+UPIRESOLVE AI (PAYRAKSHAK) — COMPREHENSIVE CODEBASE DIGEST & HANDOVER DOC
+================================================================================
+Timestamp: 2026-10-10
+Repository: https://github.com/adityakulkarni3618/PayRakshak
+Architecture: Full-stack UPI Dispute Detection & Resolution Platform
+
+--------------------------------------------------------------------------------
+1. EXECUTIVE SUMMARY & NON-NEGOTIABLE ARCHITECTURAL RULES
+--------------------------------------------------------------------------------
+- Purpose: AI-powered UPI dispute management platform that classifies complaints,
+  checks transaction consistency, and recommends explainable advisory resolutions.
+- Non-negotiable Rules (AGENTS.md):
+  1. AI recommends; humans decide. Execution mode is strictly ADVISORY_ONLY.
+  2. Keep ML classifier (app/ml), Consistency rules (services/consistency.py),
+     and Resolution rules (services/resolution.py) separate.
+  3. Never fabricate metrics or confidence values. Report AI_UNAVAILABLE if missing.
+  4. Roles (CUSTOMER, SUPPORT_AGENT, ADMIN) come from database JWT claims, server-enforced.
+  5. Provenance tags: SYNTHETIC, USER_IMPORTED, PROVIDER_VERIFIED.
+  6. No PINs/OTPs logged or stored. Raw text omitted from audit details.
+  7. Case status transitions strictly via services.cases.transition.
+
+--------------------------------------------------------------------------------
+2. REPOSITORY DIRECTORY STRUCTURE
+--------------------------------------------------------------------------------
+PayRakshak/
+├── backend/
+│   ├── alembic/                  # Alembic DB migration revisions
+│   ├── alembic.ini               # Alembic configuration
+│   ├── app/
+│   │   ├── config.py             # App settings (Pydantic BaseSettings)
+│   │   ├── db.py                 # SQLAlchemy engine & session setup
+│   │   ├── deps.py               # Auth & role dependencies (get_current_user, admin_only)
+│   │   ├── enums.py              # Cat, Role, Status, Source enums
+│   │   ├── main.py               # FastAPI entry point & router inclusion
+│   │   ├── models.py             # User, Transaction, Dispute, EvidenceFile, AuditEvent, etc.
+│   │   ├── schemas.py            # Pydantic request & response DTO models
+│   │   ├── security.py           # Password hashing & JWT token handling
+│   │   ├── ml/
+│   │   │   ├── classifier.py     # Inference service wrapper
+│   │   │   ├── preprocess.py     # Text normalization
+│   │   │   ├── synthetic_data.py # Labeled complaint datasets
+│   │   │   └── train.py          # TF-IDF + Logistic Regression training pipeline
+│   │   ├── routers/
+│   │   │   ├── admin.py          # Analytics, user role management, CSV export
+│   │   │   ├── ai.py             # Prediction & transaction consistency endpoints
+│   │   │   ├── auth.py           # Register, login, logout, me
+│   │   │   ├── dashboard.py      # Customer metrics & notifications
+│   │   │   ├── disputes.py       # Dispute creation, evidence upload/download, replies
+│   │   │   ├── support.py        # Support agent workspace & assignment
+│   │   │   └── transactions.py   # Transaction listing & CSV import
+│   │   └── services/
+│   │       ├── analysis.py       # Full transaction & complaint analysis orchestration
+│   │       ├── audit.py          # Audit event logger & notification sender
+│   │       ├── cases.py          # State machine status transition & dispute creator
+│   │       ├── consistency.py    # Deterministic consistency checks
+│   │       ├── explain.py        # Natural language evidence explanation generator
+│   │       ├── provider.py       # Base & Mock NPCI Bank Provider Adapter
+│   │       ├── ratelimit.py      # In-memory sliding window rate limiter
+│   │       ├── resolution.py     # Advisory resolution recommendation matrix
+│   │       └── serializers.py    # Formatting helpers
+│   ├── model_store/              # Saved joblib model artifacts
+│   ├── pytest.ini                # Pytest configuration
+│   ├── requirements.txt          # Python dependencies
+│   ├── scripts/
+│   │   ├── create_admin.py       # CLI admin creation tool
+│   │   └── seed.py               # Synthetic demo data seeder
+│   └── tests/
+│       ├── conftest.py           # Pytest fixtures & test DB client
+│       ├── test_api.py           # 24 integration API tests
+│       └── test_ml_rules.py      # ML & consistency rule tests
+├── frontend/
+│   ├── __tests__/
+│   │   └── api.test.ts           # Vitest unit test suite (4 tests)
+│   ├── app/
+│   │   ├── admin/                # Admin analytics dashboard page
+│   │   ├── dashboard/            # Customer main dashboard page
+│   │   ├── disputes/             # Dispute list, detail, submission pages
+│   │   ├── login/ & register/    # Authentication pages
+│   │   ├── support/              # Support agent workspace pages
+│   │   ├── transactions/         # Transaction search & CSV upload pages
+│   │   ├── globals.css           # Custom Tailwind design system styles
+│   │   └── layout.tsx            # App root layout
+│   ├── components/               # Shell, CaseView, UI components
+│   ├── lib/                      # API client & Auth provider hooks
+│   ├── package.json              # Frontend npm dependencies & Vitest script
+│   └── tailwind.config.ts        # Tailwind configuration
+├── HACKATHON_DEMO.md             # Hackathon presentation guide & architecture diagram
+├── README.md                     # Main repository guide
+└── digest.txt                    # This comprehensive codebase digest file
+
+--------------------------------------------------------------------------------
+3. COMMAND REFERENCE & RUN INSTRUCTIONS
+--------------------------------------------------------------------------------
+Backend Server:
+  cd backend
+  py -m uvicorn app.main:app --reload
+
+Frontend Dev Server:
+  cd frontend
+  npm run dev
+
+Backend Test Suite (Pytest - 24/24 green):
+  cd backend
+  py -m pytest -q
+
+Frontend Test Suite (Vitest - 4/4 green):
+  cd frontend
+  npm test
+
+ML Model Training:
+  cd backend
+  py -m app.ml.train
+
+Database Seed:
+  cd backend
+  py -m scripts.seed
+
+Admin Provisioning CLI:
+  cd backend
+  py -m scripts.create_admin --email admin@rescuelink.com --name "System Admin" --password "AdminPass1234!"
+
+Alembic Migrations:
+  cd backend
+  py -m alembic revision --autogenerate -m "Migration description"
+  py -m alembic stamp head
+
+--------------------------------------------------------------------------------
+4. SYSTEM DEMO CREDENTIALS
+--------------------------------------------------------------------------------
+System Administrator:
+  Email: admin@rescuelink.com
+  Password: AdminPass1234!
+
+Demo Customer:
+  Email: demo.customer@example.com
+  Password: KCbEAvgJ-YkIVuVb
+
+Support Agent:
+  Email: demo.agent@example.com
+  Password: T1qdLJD9F9rw8rlB
+
+--------------------------------------------------------------------------------
+5. API ROUTE ENDPOINT MATRIX
+--------------------------------------------------------------------------------
+Auth:
+  POST /api/v1/auth/register
+  POST /api/v1/auth/login
+  POST /api/v1/auth/logout
+  GET  /api/v1/auth/me
+
+Transactions:
+  GET  /api/v1/transactions
+  GET  /api/v1/transactions/{id}
+  POST /api/v1/transactions/import
+
+Disputes:
+  POST /api/v1/disputes
+  GET  /api/v1/disputes
+  GET  /api/v1/disputes/{case_id}
+  GET  /api/v1/disputes/{case_id}/timeline
+  POST /api/v1/disputes/{case_id}/evidence
+  GET  /api/v1/disputes/{case_id}/evidence/{evidence_id}
+  POST /api/v1/disputes/{case_id}/additional-information
+  POST /api/v1/disputes/{case_id}/withdraw
+
+Support:
+  GET  /api/v1/support/cases
+  POST /api/v1/support/cases/{case_id}/assign
+  POST /api/v1/support/cases/{case_id}/request-information
+  POST /api/v1/support/cases/{case_id}/review
+  POST /api/v1/support/cases/{case_id}/escalate
+
+Admin:
+  GET  /api/v1/admin/analytics
+  GET  /api/v1/admin/audit-events
+  GET  /api/v1/admin/system-health
+  GET  /api/v1/admin/users
+  POST /api/v1/admin/users/{user_id}/role
+  GET  /api/v1/admin/export/audit-events
+  GET  /api/v1/admin/export/disputes
+
+================================================================================
+END OF DIGEST.TXT
+================================================================================
