@@ -47,397 +47,343 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"overview" | "consistency" | "resolution">("overview");
 
   return (
-    <div className="min-h-screen bg-[#070B12] text-[#E2E8F0] font-sans antialiased selection:bg-[#00F0FF]/20 selection:text-[#00F0FF] relative overflow-hidden">
-      {/* 3D Background Lighting Gradients */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[1000px] bg-gradient-to-tr from-[#00F0FF]/20 via-[#7000FF]/15 to-transparent blur-[140px] rounded-full" />
-      <div className="pointer-events-none absolute top-1/2 -left-40 h-[500px] w-[500px] bg-[#00F0FF]/10 blur-[130px] rounded-full" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[600px] w-[600px] bg-[#7000FF]/10 blur-[150px] rounded-full" />
+    <div className="min-h-screen bg-[#0B0F17] text-slate-100 font-sans antialiased">
+      {/* Subtle background glow */}
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[450px] w-[800px] bg-sky-900/15 blur-[120px] rounded-full" />
 
-      {/* Grid Overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-
-      {/* 1. FLOATING NAVIGATION BAR */}
-      <header className="sticky top-4 z-50 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="rounded-2xl bg-[#0F172A]/80 backdrop-blur-xl border border-white/10 p-3 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
+      {/* Navigation Header */}
+      <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#0B0F17]/90 backdrop-blur-md">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#00F0FF] via-[#0072FF] to-[#7000FF] p-0.5 shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all">
-              <svg width={20} height={20} style={{ width: "20px", height: "20px" }} className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-600 text-white font-bold shadow-sm">
+              <svg width={20} height={20} style={{ width: "20px", height: "20px" }} className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
             <div>
-              <div className="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+              <div className="font-semibold text-base text-white tracking-tight flex items-center gap-2">
                 PayRakshak
-                <span className="text-[10px] font-mono bg-[#00F0FF]/15 text-[#00F0FF] px-2 py-0.5 rounded-full border border-[#00F0FF]/30">v2.4 Live</span>
+                <span className="text-[11px] font-medium bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">UPIResolve AI</span>
               </div>
-              <div className="text-[11px] text-slate-400 font-mono">UPIResolve AI Platform</div>
             </div>
           </Link>
 
           {/* Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#simulator" className="hover:text-[#00F0FF] transition-colors">Live Simulator</a>
-            <a href="#how-it-works" className="hover:text-[#00F0FF] transition-colors">How it works</a>
-            <a href="#features" className="hover:text-[#00F0FF] transition-colors">Capabilities</a>
-            <Link href="/privacy" className="hover:text-[#00F0FF] transition-colors">Privacy</Link>
+            <a href="#simulator" className="hover:text-white transition-colors">Dispute Simulator</a>
+            <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
+            <a href="#capabilities" className="hover:text-white transition-colors">Capabilities</a>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy & Governance</Link>
           </nav>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
-              Sign in
+            <Link href="/login" className="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+              Sign In
             </Link>
-            <Link href="/register" className="btn-3d-primary !py-2 !px-5 text-sm">
-              Launch App
+            <Link href="/register" className="px-4 py-2 text-sm font-medium bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition-colors shadow-sm">
+              Get Started
             </Link>
           </div>
         </div>
       </header>
 
-      {/* 2. HERO SECTION */}
-      <section className="pt-20 pb-16 text-center relative z-10 px-6">
+      {/* Main Hero Section */}
+      <section className="pt-16 pb-14 text-center px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mx-auto max-w-4xl">
-          {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-[#00F0FF]/30 bg-[#00F0FF]/10 px-4 py-1.5 text-xs font-mono text-[#00F0FF] mb-8 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
-            <span className="h-2 w-2 rounded-full bg-[#00F0FF] animate-ping" />
-            AI-POWERED UPI DISPUTE DETECTION & RESOLUTION PLATFORM
+          <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1 text-xs font-medium text-sky-300 mb-6">
+            Official UPI Dispute Advisory & Decision Support Platform
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl leading-[1.12]">
-            Intelligent Dispute Resolution for{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-[#0072FF] to-[#7000FF]">
-              UPI Payments
-            </span>
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl leading-tight">
+            Intelligent, Explainable Dispute Resolution for <span className="text-sky-400">UPI Payments</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base sm:text-xl text-slate-300 leading-relaxed font-light">
-            Every transaction explained. Every dispute guided. Analyze payment complaints, verify status consistency, and receive explainable advisory resolutions instantly.
+          <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed">
+            Understand transaction discrepancies, evaluate ledger consistency, and generate audit-ready advisory findings with human-in-the-loop decision controls.
           </p>
 
-          {/* CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/register" className="btn-3d-primary !px-8 !py-3.5 text-base w-full sm:w-auto">
-              Get Started Free ➔
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link href="/register" className="px-6 py-3 text-sm font-semibold bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition-colors shadow-sm w-full sm:w-auto">
+              Create Account ➔
             </Link>
-            <a href="#simulator" className="btn-3d-secondary !px-8 !py-3.5 text-base w-full sm:w-auto">
-              Try Live Simulator
+            <a href="#simulator" className="px-6 py-3 text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition-colors w-full sm:w-auto">
+              Explore Live Simulator
             </a>
           </div>
 
-          {/* Trust Stat Bar */}
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
-            <div className="card-3d p-4 flex items-center gap-3.5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/20 font-bold">
-                ⚡
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">Advisory Speed</div>
-                <div className="text-sm font-bold text-white">&lt; 2 Second Analysis</div>
-              </div>
+          {/* Trust Metric Cards */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Analysis Latency</div>
+              <div className="text-lg font-bold text-white mt-1">&lt; 2 Seconds</div>
+              <div className="text-xs text-slate-400 mt-0.5">Automated rule evaluation</div>
             </div>
 
-            <div className="card-3d p-4 flex items-center gap-3.5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
-                🛡️
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">Decision Safety</div>
-                <div className="text-sm font-bold text-white">100% Human-in-the-Loop</div>
-              </div>
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Decision Protocol</div>
+              <div className="text-lg font-bold text-emerald-400 mt-1">100% Advisory Only</div>
+              <div className="text-xs text-slate-400 mt-0.5">Human approval required</div>
             </div>
 
-            <div className="card-3d p-4 flex items-center gap-3.5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 font-bold">
-                🔍
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">Consistency Rules</div>
-                <div className="text-sm font-bold text-white">12 Automated Checks</div>
-              </div>
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Audit Trail</div>
+              <div className="text-lg font-bold text-white mt-1">Immutable Log</div>
+              <div className="text-xs text-slate-400 mt-0.5">Role-restricted access</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. INTERACTIVE LIVE DISPUTE SIMULATOR (ON HOME PAGE) */}
-      <section id="simulator" className="py-16 relative z-10 px-4 sm:px-6">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-3 py-1 rounded-full border border-[#00F0FF]/20">
-              INTERACTIVE DEMO
-            </span>
-            <h2 className="text-3xl font-extrabold text-white mt-3 tracking-tight sm:text-4xl">
-              Experience the AI Engine in Action
-            </h2>
-            <p className="mt-2 text-sm text-slate-400">
-              Select a UPI dispute scenario below to see real-time NLP classification, consistency rule evaluation, and advisory resolutions.
-            </p>
+      {/* Interactive Dispute Simulator */}
+      <section id="simulator" className="py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 bg-slate-950/40">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Interactive Dispute Scenario Simulator</h2>
+            <p className="mt-2 text-sm sm:text-base text-slate-400">Select a real-world UPI scenario to see how PayRakshak evaluates transaction consistency and recommends next steps.</p>
           </div>
 
-          {/* Scenario Selector Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            {DEMO_SCENARIOS.map((s) => (
+          {/* Scenario Selector */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+            {DEMO_SCENARIOS.map((scenario) => (
               <button
-                key={s.id}
-                onClick={() => setActiveScenario(s)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all border ${
-                  activeScenario.id === s.id
-                    ? "bg-[#00F0FF]/20 text-[#00F0FF] border-[#00F0FF]/50 shadow-[0_0_15px_rgba(0,240,255,0.25)] scale-105"
-                    : "bg-[#0F172A]/80 text-slate-400 border-white/10 hover:bg-slate-800 hover:text-white"
+                key={scenario.id}
+                onClick={() => setActiveScenario(scenario)}
+                className={`px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                  activeScenario.id === scenario.id
+                    ? "bg-sky-600/20 border-sky-500 text-sky-300"
+                    : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700"
                 }`}
               >
-                {s.label}
+                {scenario.label}
               </button>
             ))}
           </div>
 
-          {/* Simulator Display Card */}
-          <div className="card-3d p-6 relative overflow-hidden">
-            {/* Top Workspace Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/10 pb-4 mb-6 gap-3">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-                  <span className="font-mono text-xs text-slate-400">LIVE EVALUATION WINDOW</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mt-1">Dispute Reference: {activeScenario.ref}</h3>
+          {/* Dispute Card View */}
+          <div className="rounded-xl border border-slate-800 bg-slate-900/90 shadow-lg overflow-hidden">
+            {/* Header / Tabs */}
+            <div className="border-b border-slate-800 bg-slate-950/80 px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs text-slate-400">CASE REF:</span>
+                <span className="font-mono text-xs font-bold text-white bg-slate-800 px-2 py-1 rounded">{activeScenario.ref}</span>
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                  {activeScenario.category}
+                </span>
               </div>
-              <div className="flex items-center gap-2 font-mono text-xs">
-                <span className="bg-purple-500/15 text-purple-300 px-3 py-1 rounded-md border border-purple-500/30">
-                  SYNTHETIC DEMO DATA
-                </span>
-                <span className="bg-emerald-500/15 text-emerald-300 px-3 py-1 rounded-md border border-emerald-500/30">
-                  ADVISORY ONLY
-                </span>
+
+              <div className="flex items-center gap-2 text-xs">
+                <button
+                  onClick={() => setActiveTab("overview")}
+                  className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                    activeTab === "overview" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Overview
+                </button>
+                <button
+                  onClick={() => setActiveTab("consistency")}
+                  className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                    activeTab === "consistency" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Consistency Check
+                </button>
+                <button
+                  onClick={() => setActiveTab("resolution")}
+                  className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                    activeTab === "resolution" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Advisory Path
+                </button>
               </div>
             </div>
 
-            {/* Inner Dashboard Tabs */}
-            <div className="flex border-b border-white/10 mb-6 font-mono text-xs">
-              <button
-                onClick={() => setActiveTab("overview")}
-                className={`px-4 py-2 font-semibold border-b-2 transition-all ${
-                  activeTab === "overview" ? "border-[#00F0FF] text-[#00F0FF]" : "border-transparent text-slate-400 hover:text-white"
-                }`}
-              >
-                1. Transaction & Complaint
-              </button>
-              <button
-                onClick={() => setActiveTab("consistency")}
-                className={`px-4 py-2 font-semibold border-b-2 transition-all ${
-                  activeTab === "consistency" ? "border-[#00F0FF] text-[#00F0FF]" : "border-transparent text-slate-400 hover:text-white"
-                }`}
-              >
-                2. Consistency Findings
-              </button>
-              <button
-                onClick={() => setActiveTab("resolution")}
-                className={`px-4 py-2 font-semibold border-b-2 transition-all ${
-                  activeTab === "resolution" ? "border-[#00F0FF] text-[#00F0FF]" : "border-transparent text-slate-400 hover:text-white"
-                }`}
-              >
-                3. Advisory Recommendation
-              </button>
-            </div>
-
-            {/* Tab 1: Overview */}
-            {activeTab === "overview" && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-[#0F172A]/80 p-4 rounded-xl border border-white/10">
-                    <div className="text-xs text-slate-400 font-mono">Amount</div>
-                    <div className="text-lg font-bold text-white mt-1">{activeScenario.amount}</div>
-                  </div>
-                  <div className="bg-[#0F172A]/80 p-4 rounded-xl border border-white/10">
-                    <div className="text-xs text-slate-400 font-mono">Status</div>
-                    <div className="text-lg font-bold text-amber-400 mt-1">{activeScenario.status}</div>
-                  </div>
-                  <div className="bg-[#0F172A]/80 p-4 rounded-xl border border-white/10">
-                    <div className="text-xs text-slate-400 font-mono">ML Predicted Category</div>
-                    <div className="text-lg font-bold text-[#00F0FF] mt-1">{activeScenario.category}</div>
-                  </div>
+            {/* Content Body */}
+            <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Left Column: Complaint & Transaction info */}
+              <div className="lg:col-span-2 space-y-4">
+                <div className="p-4 rounded-lg bg-slate-950/60 border border-slate-800">
+                  <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Customer Statement</div>
+                  <p className="text-sm text-slate-200 leading-relaxed font-normal">"{activeScenario.complaint}"</p>
                 </div>
 
-                <div className="bg-[#0F172A]/80 p-4 rounded-xl border border-white/10 space-y-2">
-                  <div className="text-xs text-slate-400 font-mono uppercase tracking-wider">Customer Complaint Description</div>
-                  <p className="text-sm text-slate-200 italic font-serif">"{activeScenario.complaint}"</p>
-                </div>
+                {activeTab === "overview" && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800/60">
+                      <div className="text-[11px] text-slate-400">Disputed Amount</div>
+                      <div className="text-base font-bold text-white mt-0.5">{activeScenario.amount}</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800/60">
+                      <div className="text-[11px] text-slate-400">Ledger Status</div>
+                      <div className="text-sm font-bold text-amber-400 mt-0.5">{activeScenario.status}</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800/60 col-span-2 sm:col-span-1">
+                      <div className="text-[11px] text-slate-400">Evaluation Tag</div>
+                      <div className="text-xs font-mono text-sky-400 mt-1 truncate">{activeScenario.finding}</div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "consistency" && (
+                  <div className="p-4 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2 text-xs">
+                    <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                      <span className="text-slate-400">Customer Claim Match</span>
+                      <span className="text-emerald-400 font-semibold">VERIFIED</span>
+                    </div>
+                    <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                      <span className="text-slate-400">Bank Switch Status Code</span>
+                      <span className="text-slate-200 font-mono">PAYMENT_PENDING_REVERSAL</span>
+                    </div>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-slate-400">Merchant Confirmation</span>
+                      <span className="text-amber-400 font-mono">UNCONFIRMED_BY_POS</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "resolution" && (
+                  <div className="p-4 rounded-lg bg-slate-950/60 border border-slate-800">
+                    <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Recommended Action Plan</div>
+                    <p className="text-sm text-sky-300 font-medium">{activeScenario.recommendation}</p>
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* Tab 2: Consistency */}
-            {activeTab === "consistency" && (
-              <div className="bg-[#0F172A]/80 p-5 rounded-xl border border-white/10 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#00F0FF]" />
-                  <span className="font-mono text-xs text-[#00F0FF] font-bold">DETERMINISTIC CONSISTENCY RULE TRIGGERED</span>
-                </div>
-                <div className="font-mono text-sm text-white font-bold bg-[#0A0E17] p-3 rounded-lg border border-white/10">
-                  FLAG: {activeScenario.finding}
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  The automated consistency engine evaluated the complaint against available database logs and flagged this discrepancy for reviewer awareness.
-                </p>
-              </div>
-            )}
-
-            {/* Tab 3: Resolution */}
-            {activeTab === "resolution" && (
-              <div className="bg-[#0F172A]/80 p-5 rounded-xl border border-white/10 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-emerald-400 font-bold">ADVISORY NEXT STEP</span>
-                  <span className="text-xs font-mono bg-emerald-500/15 text-emerald-300 px-2.5 py-0.5 rounded border border-emerald-500/30">
+              {/* Right Column: AI Finding & CTA */}
+              <div className="p-4 rounded-lg bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Advisory Status</div>
+                  <div className="inline-block px-2.5 py-1 rounded bg-sky-500/10 border border-sky-500/30 text-sky-300 font-mono text-xs font-bold mb-3">
                     {activeScenario.risk}
-                  </span>
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    AI models generate explainable recommendations. Human support agents remain in control of final case transitions.
+                  </p>
                 </div>
-                <p className="text-sm text-white font-semibold leading-relaxed">
-                  {activeScenario.recommendation}
-                </p>
-                <div className="pt-2 flex items-center justify-between border-t border-white/10 text-xs">
-                  <span className="text-slate-400">* Execution Mode: ADVISORY_ONLY (No funds moved)</span>
-                  <Link href="/register" className="text-[#00F0FF] font-bold hover:underline">
-                    File Live Dispute ➔
+
+                <div className="mt-6 pt-4 border-t border-slate-800">
+                  <Link
+                    href="/register"
+                    className="block w-full text-center py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm transition-colors shadow-sm"
+                  >
+                    Test Full Workflow
                   </Link>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS (3 STEPS) */}
-      <section id="how-it-works" className="py-20 bg-[#0F172A]/40 border-t border-white/10 relative z-10 px-6">
+      {/* 3-Step Process Workflow */}
+      <section id="how-it-works" className="py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-800/80">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-              From Payment Issue to Next Steps
-            </h2>
-            <p className="mt-3 text-base text-slate-400">
-              A structured, 3-step workflow designed for clarity, evidence evaluation, and safe decision-making.
-            </p>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">How PayRakshak Works</h2>
+            <p className="mt-2 text-sm sm:text-base text-slate-400">Streamlined 3-step process from issue reporting to official resolution.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card-3d p-8 space-y-4 relative overflow-hidden group hover:border-[#00F0FF]/40 transition-all">
-              <div className="text-4xl font-extrabold text-[#00F0FF]/20 font-mono">01</div>
-              <h3 className="text-xl font-bold text-white">1. Select Transaction</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Choose your transaction from sample data or import your bank statement CSV to inspect payment reference attributes.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 relative">
+              <div className="h-8 w-8 rounded-lg bg-sky-600/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-sm mb-4">
+                1
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Submit Transaction Complaint</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Customers provide the disputed transaction reference, amount, and description. File evidence uploads are supported.
               </p>
             </div>
 
-            <div className="card-3d p-8 space-y-4 relative overflow-hidden group hover:border-[#00F0FF]/40 transition-all">
-              <div className="text-4xl font-extrabold text-[#00F0FF]/20 font-mono">02</div>
-              <h3 className="text-xl font-bold text-white">2. AI Analysis & Rules</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Our NLP classifier categorizes your complaint while 12 deterministic consistency rules check for reference contradictions.
+            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 relative">
+              <div className="h-8 w-8 rounded-lg bg-sky-600/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-sm mb-4">
+                2
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Automated Evaluation</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Consistency rules evaluate ledger records, bank status codes, and potential duplicate debits in real time.
               </p>
             </div>
 
-            <div className="card-3d p-8 space-y-4 relative overflow-hidden group hover:border-[#00F0FF]/40 transition-all">
-              <div className="text-4xl font-extrabold text-[#00F0FF]/20 font-mono">03</div>
-              <h3 className="text-xl font-bold text-white">3. Advisory Next Step</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Receive clear, explainable resolution recommendations and track case status through the authorized reviewer timeline.
+            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 relative">
+              <div className="h-8 w-8 rounded-lg bg-sky-600/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-sm mb-4">
+                3
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Agent Decision & Audit</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Support staff review explainable recommendations, confirm resolution paths, and update case audit logs.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. PLATFORM CAPABILITIES */}
-      <section id="features" className="py-20 bg-[#0A0E17] border-t border-white/10 relative z-10 px-6">
+      {/* Capabilities Section */}
+      <section id="capabilities" className="py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 bg-slate-950/40">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-              Engineered for Trust & Compliance
-            </h2>
-            <p className="mt-3 text-base text-slate-400">
-              Core platform capabilities built around strict safety rules.
-            </p>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Platform Capabilities</h2>
+            <p className="mt-2 text-sm sm:text-base text-slate-400">Built for accuracy, transparency, and operational compliance.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
-            <div className="card-3d p-8 space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-[#00F0FF]/10 text-[#00F0FF] flex items-center justify-center font-bold text-lg">🤖</div>
-              <h3 className="text-lg font-bold text-white">NLP Complaint Classifier</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Trained TF-IDF & Logistic Regression model categorizes complaints across 7 UPI dispute classes with low-confidence abstention (`NEEDS_CLARIFICATION`).
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="font-semibold text-white mb-1.5 text-base">Immutable Audit Log</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Every status transition, agent action, and resolution trigger is logged for full accountability.
               </p>
             </div>
 
-            <div className="card-3d p-8 space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">⚡</div>
-              <h3 className="text-lg font-bold text-white">Consistency Engine</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Deterministic validation service checks candidate duplicate references, status contradictions, and multi-complaint flags automatically.
+            <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="font-semibold text-white mb-1.5 text-base">Rule-Based Consistency</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Evaluates payment status against merchant logs and NPCI switch codes to prevent false claims.
               </p>
             </div>
 
-            <div className="card-3d p-8 space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-lg">📜</div>
-              <h3 className="text-lg font-bold text-white">Timestamped Audit Timeline</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Every dispute transition (`SUBMITTED` ➔ `UNDER_REVIEW` ➔ `ACTION_RECOMMENDED` ➔ `RESOLVED`) is stored as an immutable audit event.
+            <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="font-semibold text-white mb-1.5 text-base">Explainable AI</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Model predictions highlight specific reasoning factors rather than opaque confidence scores.
               </p>
             </div>
 
-            <div className="card-3d p-8 space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-lg">🔒</div>
-              <h3 className="text-lg font-bold text-white">Evidence Upload Security</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Magic byte header validation (PNG, JPG, PDF), path traversal guards, and file size limits (5 MB max) ensure secure evidence attachments.
+            <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="font-semibold text-white mb-1.5 text-base">Role-Based Access</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Strict database-enforced permissions for Customers, Support Agents, and System Administrators.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. GOVERNANCE & PRIVACY DISCLOSURE */}
-      <section className="py-16 bg-[#0F172A]/60 border-t border-white/10 relative z-10 px-6 text-center">
-        <div className="mx-auto max-w-4xl">
-          <div className="card-3d p-8 text-left space-y-4 border-amber-500/30 bg-amber-500/5">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🛡️</span>
-              <h3 className="text-xl font-bold text-white">Advisory Safety Disclosure</h3>
-            </div>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              PayRakshak provides advisory assistance and transaction evidence analysis. It does not independently execute refunds, reverse payments, or access your live bank account.
-            </p>
-            <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <span className="font-bold text-amber-300">
-                🔒 SECURITY RULE: Never share your UPI PIN or OTP with anyone.
-              </span>
-              <Link href="/privacy" className="text-[#00F0FF] font-bold hover:underline">
-                Read Privacy & Limitations Disclosure ➔
-              </Link>
-            </div>
+      {/* Advisory Governance & Compliance Disclosure */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 border-t border-slate-800 bg-slate-900/30 text-center">
+        <div className="mx-auto max-w-3xl">
+          <div className="inline-block p-2 rounded-lg bg-sky-500/10 text-sky-400 mb-3 border border-sky-500/20 text-xs font-semibold">
+            GOVERNANCE & SAFETY DISCLOSURE
           </div>
+          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            PayRakshak (UPIResolve AI) provides decision-support and advisory recommendations only. The system does not directly transfer funds, execute bank reversals, or close dispute cases automatically. All final resolution decisions are verified and initiated by authorized personnel.
+          </p>
         </div>
       </section>
 
-      {/* 7. FOOTER */}
-      <footer className="border-t border-white/10 bg-[#070B12] py-12 text-xs text-slate-400 relative z-10 px-6">
-        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#00F0FF] to-[#0072FF] text-[#071629] font-bold text-xs">
-              PR
-            </div>
-            <div>
-              <span className="font-bold text-white text-sm">PayRakshak</span>
-              <span className="text-slate-500 ml-2">© 2026 UPIResolve AI</span>
-            </div>
+      {/* Footer */}
+      <footer className="border-t border-slate-800/80 bg-[#0B0F17] py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
+        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-slate-300">PayRakshak</span>
+            <span>•</span>
+            <span>UPI Dispute Resolution Platform</span>
           </div>
-
-          <div className="flex flex-wrap items-center gap-6 text-sm">
-            <a href="#simulator" className="hover:text-white transition-colors">Simulator</a>
-            <a href="#how-it-works" className="hover:text-white transition-colors">How it works</a>
-            <a href="#features" className="hover:text-white transition-colors">Capabilities</a>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/login" className="hover:text-white transition-colors">Sign in</Link>
-            <Link href="/register" className="text-[#00F0FF] font-bold hover:underline">Launch App</Link>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+            <Link href="/login" className="hover:text-slate-300 transition-colors">Sign In</Link>
+            <Link href="/register" className="hover:text-slate-300 transition-colors">Create Account</Link>
           </div>
         </div>
       </footer>
