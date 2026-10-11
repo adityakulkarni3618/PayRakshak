@@ -16,7 +16,7 @@ Full-stack fintech UPI dispute detection and resolution management platform buil
 
 ```mermaid
 graph TD
-    User([Customer / Support Agent]) -->|HTTPS / Next.js UI| Frontend[Frontend: Next.js 14 + Tailwind]
+    User([Customer / Support Agent / Admin]) -->|HTTPS / Next.js UI| Frontend[Frontend: Next.js 14 + Tailwind]
     Frontend -->|JSON REST API| Backend[Backend: FastAPI + Pydantic]
     
     subgraph Core Backend Services
@@ -36,12 +36,25 @@ graph TD
 
 ## 🔑 Key Features
 
-- 🤖 **AI Dispute Classifier (`app/ml`):** Multi-class NLP classification (`UNAUTHORIZED_TRANSACTION`, `FAILED_TRANSACTION`, `DUPLICATE_PAYMENT`, `INCORRECT_AMOUNT`, `MERCHANT_NON_DELIVERY`, `REFUND_DELAY`, `PENDING_TRANSACTION`) with low-confidence abstention (`NEEDS_CLARIFICATION`).
-- ⚡ **Deterministic Consistency Engine (`app/services/consistency.py`):** Real-time detection of duplicate transaction references, status contradictions, and multi-complaint flags.
-- 💡 **Explainable Advisory Resolutions (`app/services/resolution.py`):** Non-negotiable rule compliance: **AI recommends; humans decide.** Recommends `ADVISORY_ONLY` actions (`VERIFY_REVERSAL_STATUS`, `REQUEST_DELIVERY_PROOF`, `ESCALATE_UNAUTHORIZED`).
-- 🔒 **Role-Based Access Control & Security:** Server-side enforced authorization for `CUSTOMER`, `SUPPORT_AGENT`, and `ADMIN` roles. Magic-byte file validation (PNG, JPG, PDF), path traversal guards, and rate limiting.
-- 📈 **Admin Analytics & CSV Export Engine:** Database-backed aggregate metrics and CSV file exports (`/api/v1/admin/export/disputes`, `/api/v1/admin/export/audit-events`).
-- 🔄 **Alembic DB Migrations & Provider Adapter:** Database schema revision control and `MockNPCIProviderAdapter` reserving `PROVIDER_VERIFIED` strictly for verified NPCI/bank switch responses.
+- 🎨 **Official Corporate Fintech UI with Light / Dark Theme Toggle:**
+  - Clean, official design defaulting to **Light Mode** with instant toggle to Dark Mode via header/sidebar controls.
+  - Interactive **Dispute Scenario Simulator** on the home page showcasing real-time consistency checks and advisory outcomes.
+- 📄 **One-Click Official Dispute Dossier Export (PDF / Print):**
+  - Generates comprehensive, audit-ready dispute documentation formatted for submission to the bank ombudsman or NPCI dispute mechanism. Includes case IDs, RRN codes, switch statuses, rule findings, and immutable audit trails.
+- 📲 **Bank SMS & WhatsApp Alert Parser:**
+  - Fast-track dispute filing by pasting raw bank SMS debit notifications (e.g., *"Rs.1500 debited from A/c... to merchant@upi Ref 123456"*). Automatically extracts disputed amount, reference/RRN, and VPA.
+- 🧭 **Guided 5-Step Dispute Filing Wizard:**
+  - Interactive multi-step form with step progress indicators, real-time input validation, and optional AI-assisted issue classification (`HELP`).
+- ⏱️ **Turnaround SLA Tracker & Analytics Dashboard:**
+  - Real-time resolution SLA benchmarked against official **48-hour NPCI turnaround guidelines**, alongside status distributions and rule trigger analytics.
+- 🤖 **AI Dispute Classifier (`app/ml`):**
+  - Multi-class NLP classification across 7 categories with low-confidence abstention (`NEEDS_CLARIFICATION`).
+- ⚡ **Deterministic Consistency Engine (`app/services/consistency.py`):**
+  - Real-time checks for duplicate transaction references, status contradictions, and multi-complaint flags.
+- 💡 **Explainable Advisory Resolutions (`app/services/resolution.py`):**
+  - **AI recommends; humans decide.** Strict `ADVISORY_ONLY` action recommendations.
+- 🔒 **Role-Based Access Control & Security:**
+  - Server-side database role enforcement (`CUSTOMER`, `SUPPORT_AGENT`, `ADMIN`), magic-byte file validation, and path traversal guards.
 
 ---
 
@@ -65,7 +78,7 @@ npm install
 npm run dev
 ```
 
-The frontend will run at **`http://localhost:3000`** and connect to the FastAPI backend at **`http://localhost:8000`**.
+The frontend runs at **`http://localhost:3000`** and communicates with the FastAPI backend at **`http://localhost:8000`**.
 
 ---
 
@@ -99,6 +112,6 @@ npm test
 
 ## 📜 Handover & Documentation
 
-- [digest.txt](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/digest.txt) — Full codebase digest and API route matrix.
-- [HACKATHON_DEMO.md](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/HACKATHON_DEMO.md) — Detailed hackathon presentation guide & architecture overview.
-- [AGENTS.md](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/AGENTS.md) — Non-negotiable architectural rules for coding agents.
+- [digest.txt](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/digest.txt) — Codebase digest, architecture overview, and API route matrix.
+- [HACKATHON_DEMO.md](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/HACKATHON_DEMO.md) — Hackathon demonstration script and architecture details.
+- [AGENTS.md](file:///c:/Users/Aditya%20Kulkarni/Downloads/PayRakshak/AGENTS.md) — Non-negotiable rules and safety constraints.

@@ -1,7 +1,7 @@
 ================================================================================
 UPIRESOLVE AI (PAYRAKSHAK) — COMPREHENSIVE CODEBASE DIGEST & HANDOVER DOC
 ================================================================================
-Timestamp: 2026-10-10
+Timestamp: 2026-10-11
 Repository: https://github.com/adityakulkarni3618/PayRakshak
 Architecture: Full-stack UPI Dispute Detection & Resolution Platform
 
@@ -21,7 +21,7 @@ Architecture: Full-stack UPI Dispute Detection & Resolution Platform
   7. Case status transitions strictly via services.cases.transition.
 
 --------------------------------------------------------------------------------
-2. REPOSITORY DIRECTORY STRUCTURE
+2. REPOSITORY DIRECTORY STRUCTURE & RECENT ADDITIONS
 --------------------------------------------------------------------------------
 PayRakshak/
 ├── backend/
@@ -73,24 +73,63 @@ PayRakshak/
 │   ├── __tests__/
 │   │   └── api.test.ts           # Vitest unit test suite (4 tests)
 │   ├── app/
-│   │   ├── admin/                # Admin analytics dashboard page
+│   │   ├── admin/                # Admin analytics & 48h NPCI SLA tracker
 │   │   ├── dashboard/            # Customer main dashboard page
-│   │   ├── disputes/             # Dispute list, detail, submission pages
+│   │   ├── disputes/             # Dispute list, detail, and 5-step guided wizard
 │   │   ├── login/ & register/    # Authentication pages
+│   │   ├── privacy/              # Governance and limitations disclosure
 │   │   ├── support/              # Support agent workspace pages
 │   │   ├── transactions/         # Transaction search & CSV upload pages
-│   │   ├── globals.css           # Custom Tailwind design system styles
-│   │   └── layout.tsx            # App root layout
-│   ├── components/               # Shell, CaseView, UI components
-│   ├── lib/                      # API client & Auth provider hooks
+│   │   ├── globals.css           # Dual-theme styling (Light default + Dark mode)
+│   │   ├── layout.tsx            # App root layout with ThemeProvider wrapper
+│   │   └── page.tsx              # Official landing page with Live Dispute Simulator
+│   ├── components/
+│   │   ├── CaseView.tsx          # Case inspection with One-Click PDF Dossier Export
+│   │   ├── DossierExport.tsx     # Printable PDF Dispute Dossier generator
+│   │   ├── Shell.tsx             # Responsive dashboard layout with theme switcher
+│   │   ├── ThemeProvider.tsx     # Theme context provider with localStorage persistence
+│   │   └── ui.tsx                # Badges, notices, skeletons
+│   ├── lib/
+│   │   ├── api.ts                # API client & formatting helpers
+│   │   ├── auth.ts               # User context & permission helpers
+│   │   └── smsParser.ts          # Bank SMS / WhatsApp alert parser
 │   ├── package.json              # Frontend npm dependencies & Vitest script
-│   └── tailwind.config.ts        # Tailwind configuration
+│   └── tailwind.config.ts        # Tailwind configuration (darkMode: "class")
 ├── HACKATHON_DEMO.md             # Hackathon presentation guide & architecture diagram
-├── README.md                     # Main repository guide
+├── README.md                     # Main repository documentation
 └── digest.txt                    # This comprehensive codebase digest file
 
 --------------------------------------------------------------------------------
-3. COMMAND REFERENCE & RUN INSTRUCTIONS
+3. NEW CORE CAPABILITIES IMPLEMENTED
+--------------------------------------------------------------------------------
+A. Official Fintech Landing Page with Live Simulator:
+   - Clean, official corporate fintech layout replacing neon cyber aesthetics.
+   - Interactive Live Dispute Scenario Simulator testing real-world UPI failure cases.
+
+B. Dual Theme Architecture:
+   - Light Theme enabled by default with seamless toggle to Dark Theme via
+     header and sidebar Sun/Moon controls.
+   - LocalStorage persistence and Tailwind class-based dark mode (`darkMode: "class"`).
+
+C. One-Click Official Dispute Dossier Export (PDF/Print):
+   - Generates formatted, audit-ready dispute documentation formatted for submission
+     to the bank ombudsman or NPCI dispute mechanism. Includes case IDs, RRN codes,
+     switch statuses, rule findings, and immutable audit trails.
+
+D. Bank SMS & WhatsApp Alert Parser:
+   - Parses raw debit alerts (e.g. "Rs.1500 debited... Ref 123456") to automatically
+     populate disputed amounts, bank references, and payee VPAs.
+
+E. Interactive 5-Step Dispute Filing Wizard:
+   - Visual step progress indicators (Steps 1 to 5), input length checks,
+     drag-and-drop evidence uploads, and optional AI-assisted classification.
+
+F. Admin Turnaround SLA Tracker:
+   - Real-time resolution SLA counter benchmarked against the official
+     48-hour NPCI turnaround guideline with visual status compliance indicators.
+
+--------------------------------------------------------------------------------
+4. COMMAND REFERENCE & RUN INSTRUCTIONS
 --------------------------------------------------------------------------------
 Backend Server:
   cd backend
@@ -108,6 +147,10 @@ Frontend Test Suite (Vitest - 4/4 green):
   cd frontend
   npm test
 
+Frontend Build Verification:
+  cd frontend
+  npm run build
+
 ML Model Training:
   cd backend
   py -m app.ml.train
@@ -120,13 +163,8 @@ Admin Provisioning CLI:
   cd backend
   py -m scripts.create_admin --email admin@rescuelink.com --name "System Admin" --password "AdminPass1234!"
 
-Alembic Migrations:
-  cd backend
-  py -m alembic revision --autogenerate -m "Migration description"
-  py -m alembic stamp head
-
 --------------------------------------------------------------------------------
-4. SYSTEM DEMO CREDENTIALS
+5. SYSTEM DEMO CREDENTIALS
 --------------------------------------------------------------------------------
 System Administrator:
   Email: admin@rescuelink.com
@@ -141,7 +179,7 @@ Support Agent:
   Password: T1qdLJD9F9rw8rlB
 
 --------------------------------------------------------------------------------
-5. API ROUTE ENDPOINT MATRIX
+6. API ROUTE ENDPOINT MATRIX
 --------------------------------------------------------------------------------
 Auth:
   POST /api/v1/auth/register
