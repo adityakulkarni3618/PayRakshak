@@ -6,9 +6,12 @@ import { api } from "@/lib/api";
 import { UserCtx, User } from "@/lib/auth";
 import { Skeleton } from "./ui";
 import { ThemeToggle } from "./ThemeProvider";
+import { LangToggle } from "./LangProvider";
 
-const NAV: Record<string, [string, string][]> = {
-  CUSTOMER: [["/dashboard", "Dashboard"], ["/transactions", "Transactions"], ["/disputes", "My cases"]],
+
+const NAV: Record<string, [string, string][]
+> = {
+  CUSTOMER: [["/dashboard", "Dashboard"], ["/transactions", "Transactions"], ["/disputes", "My cases"], ["/track", "Track case"]],
   SUPPORT_AGENT: [["/support", "Case queue"]],
   ADMIN: [["/support", "Case queue"], ["/admin", "Admin"]],
 };
@@ -52,6 +55,7 @@ export default function Shell({ children, roles }: { children: React.ReactNode; 
             <span className="font-bold text-base tracking-tight">PayRakshak</span>
           </div>
           <div className="flex items-center gap-2">
+            <LangToggle />
             <ThemeToggle />
             <button className="btn-3d-secondary px-3 py-1 text-xs" aria-expanded={open} onClick={() => setOpen(!open)}>
               {open ? "Close" : "Menu"}
@@ -74,7 +78,10 @@ export default function Shell({ children, roles }: { children: React.ReactNode; 
                   <span className="text-[11px] text-sky-600 dark:text-[#00F0FF] font-mono tracking-wider">UPIResolve AI</span>
                 </div>
               </div>
-              <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <LangToggle />
+                <ThemeToggle />
+              </div>
             </div>
 
             <nav className="space-y-1.5 px-3 py-6" aria-label="Main">
