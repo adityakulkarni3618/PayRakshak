@@ -10,6 +10,7 @@ from .db import Base, engine
 from .ml.classifier import classifier
 from . import models  # noqa: F401  (register tables)
 from .routers import auth, transactions, disputes, support, admin, ai, dashboard
+from .routers.disputes import _public_router as cases_public_router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 log = logging.getLogger("upiresolve")
@@ -45,6 +46,8 @@ async def correlation(request: Request, call_next):
 
 for r in (auth, transactions, disputes, support, admin, ai, dashboard):
     app.include_router(r.router)
+# Unauthenticated public endpoints (case tracking)
+app.include_router(cases_public_router)
 
 
 @app.get("/health")

@@ -128,3 +128,32 @@ def withdraw(case_id: str, user: User = Depends(get_current_user), db: Session =
     cases.transition(db, d, "WITHDRAWN", user, "Withdrawn by customer")
     db.commit()
     return dispute_out(db, d)
+
+
+# ---------------------------------------------------------------------------
+# Public (unauthenticated) endpoint – returns ONLY non-sensitive status info.
+# Rule §4: role from DB, not client.  No PII, no complaint text exposed.
+# ---------------------------------------------------------------------------
+_public_router = APIRouter(prefix="/api/v1/cases", tags=["cases-public"])
+
+
+@_public_router.get("/track/{case_id}")
+def track_public(case_id: str, db: Session = Depends(get_db)):
+    """Return minimal public status information for a dispute without requiring login."""
+    from sqlalchemy import select as _select
+    from ..models import Transaction as _Txn
+    d = db.scalar(_select(Dispute).where(Dispute.case_id == case_id))
+    if not d:
+        raise HTTPException(404, "Case not found")
+    txn = db.scalar(_select(_Txn).where(_Txn.id == d.transaction_id))
+    return {
+        "case_id": d.case_id,
+        "status": d.status,
+        "category": d.effective_category or "UNKNOWN",
+        "created_at": d.created_at,
+        "last_updated": d.updated_at,
+        "amount": float(txn.amount) if txn else None,
+        "currency": txn.currency if txn else "INR",
+        # Summary is advisory text only — no raw complaint text (Rule §6)
+        "summary": f"Your dispute is currently {d.status.replace('_', ' ').lower()}.",
+    }
