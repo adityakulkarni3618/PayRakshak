@@ -1,4 +1,5 @@
 import uuid
+from ..utils.scan import scan_file
 from fastapi import APIRouter, Depends, HTTPException, Header, UploadFile, File, Query
 from fastapi.responses import FileResponse
 from sqlalchemy import select, func
@@ -82,6 +83,10 @@ async def upload(case_id: str, file: UploadFile = File(...), user: User = Depend
     stored = f"{uuid.uuid4().hex}.{ext}"
     settings.upload_dir.mkdir(parents=True, exist_ok=True)
     (settings.upload_dir / stored).write_bytes(data)
+    # Scan file for malware after writing; delete if flagged
+    if not scan_file(str(settings.upload_dir / stored)):
+        (settings.upload_dir / stored).unlink(missing_ok=True)
+        raise HTTPException(400, "Uploaded file failed malware scan")
     ev = EvidenceFile(dispute_id=d.id, uploader_id=user.id, original_name=(file.filename or "file")[-120:], stored_name=stored, content_type=ctype, size=len(data))
     db.add(ev)
     db.flush()
@@ -128,3 +133,32 @@ def withdraw(case_id: str, user: User = Depends(get_current_user), db: Session =
     cases.transition(db, d, "WITHDRAWN", user, "Withdrawn by customer")
     db.commit()
     return dispute_out(db, d)
+
+
+# ---------------------------------------------------------------------------
+# Public (unauthenticated) endpoint – returns ONLY non-sensitive status info.
+# Rule §4: role from DB, not client.  No PII, no complaint text exposed.
+# ---------------------------------------------------------------------------
+_public_router = APIRouter(prefix="/api/v1/cases", tags=["cases-public"])
+
+
+@_public_router.get("/track/{case_id}")
+def track_public(case_id: str, db: Session = Depends(get_db)):
+    """Return minimal public status information for a dispute without requiring login."""
+    from sqlalchemy import select as _select
+    from ..models import Transaction as _Txn
+    d = db.scalar(_select(Dispute).where(Dispute.case_id == case_id))
+    if not d:
+        raise HTTPException(404, "Case not found")
+    txn = db.scalar(_select(_Txn).where(_Txn.id == d.transaction_id))
+    return {
+        "case_id": d.case_id,
+        "status": d.status,
+        "category": d.effective_category or "UNKNOWN",
+        "created_at": d.created_at,
+        "last_updated": d.updated_at,
+        "amount": float(txn.amount) if txn else None,
+        "currency": txn.currency if txn else "INR",
+        # Summary is advisory text only — no raw complaint text (Rule §6)
+        "summary": f"Your dispute is currently {d.status.replace('_', ' ').lower()}.",
+    }
