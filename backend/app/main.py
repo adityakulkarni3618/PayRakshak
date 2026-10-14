@@ -11,6 +11,7 @@ from .ml.classifier import classifier
 from . import models  # noqa: F401  (register tables)
 from .routers import auth, transactions, disputes, support, admin, ai, dashboard
 from .routers.disputes import _public_router as cases_public_router
+from .middleware.ratelimit import RateLimitMiddleware
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 log = logging.getLogger("upiresolve")
@@ -26,6 +27,7 @@ async def lifespan(app):
 
 
 app = FastAPI(title="UPIResolve AI", version="1.0.0", lifespan=lifespan)
+app.add_middleware(RateLimitMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_credentials=True,
                    allow_methods=["GET", "POST"], allow_headers=["Content-Type", "X-Requested-With", "Idempotency-Key", "Authorization"])
 

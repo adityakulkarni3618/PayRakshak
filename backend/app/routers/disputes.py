@@ -1,4 +1,5 @@
 import uuid
+from ..utils.scan import scan_file
 from fastapi import APIRouter, Depends, HTTPException, Header, UploadFile, File, Query
 from fastapi.responses import FileResponse
 from sqlalchemy import select, func
@@ -82,6 +83,10 @@ async def upload(case_id: str, file: UploadFile = File(...), user: User = Depend
     stored = f"{uuid.uuid4().hex}.{ext}"
     settings.upload_dir.mkdir(parents=True, exist_ok=True)
     (settings.upload_dir / stored).write_bytes(data)
+    # Scan file for malware after writing; delete if flagged
+    if not scan_file(str(settings.upload_dir / stored)):
+        (settings.upload_dir / stored).unlink(missing_ok=True)
+        raise HTTPException(400, "Uploaded file failed malware scan")
     ev = EvidenceFile(dispute_id=d.id, uploader_id=user.id, original_name=(file.filename or "file")[-120:], stored_name=stored, content_type=ctype, size=len(data))
     db.add(ev)
     db.flush()
